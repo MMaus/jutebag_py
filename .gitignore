@@ -1,0 +1,5 @@
+.vscode/
+__pycache__/
+cred/
+src_old/
+web/static/
