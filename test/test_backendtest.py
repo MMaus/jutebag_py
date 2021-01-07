@@ -20,6 +20,14 @@ class TestJutebagBackend(unittest.TestCase):
         bag = self.store.fetchBag("h.moritz.maus@gmail.com")
         self.assertEquals([0, 1, 2], bag["some"])
         self.assertTrue(len(bag["bagData"]) > 3)
+    
+    def test_returns_todo_list_for_hm10(self):
+        """
+        FIXME: create proper tests
+        """
+        bag = self.store.fetchTodo('moritz.maus@hm10.net')
+        self.assertEquals(0, len(bag['tasks']))
+        self.assertEquals(1, bag['revision'])
 
 
 
