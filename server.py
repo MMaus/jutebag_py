@@ -17,6 +17,27 @@ server = Flask(__name__,
 def hello():
     return "Hello, Python"
 
+@server.route("/bagpy/todo/<userEmail>")
+def fetchTodo(userEmail: str) -> str:
+    todo = backend.fetchTodo(userEmail)
+    response = flask.jsonify(todo)
+    print("TodoList for " + userEmail + ": " + str(response))
+    return response
+
+@server.route("/bagpy/todo/<userEmail>", methods=["POST"])
+def putTodo(userEmail: str) -> str:
+    json = request.json
+    todoData = {
+        'version' : json.get(u'version'), # iteration of the todo list
+        'tasks' : json.get(u'tasks'), # a nested dict
+    }
+        # 'tasklist' : json.get(u'tasklist'), # array (list) of tasks, each is { label: string, status: int}
+        # 'nextActionTime' : json.get(u'nextActionTime'), # string, representing a data
+        # 'label' : json.get(u'label'), # label of the todo item
+    result = backend.storeTodo(userEmail, todoData)
+    response = flask.jsonify(result)
+    return response
+
 @server.route("/bagpy/joinRequests/<userEmail>")
 def pendingRequests(userEmail: str) -> str:
     requests = backend.getJoinRequests(userEmail)
@@ -24,12 +45,6 @@ def pendingRequests(userEmail: str) -> str:
     print("Pending requests for " + userEmail + ": " + str(response))
     return response
 
-@server.route("/bagpy/todo/<userEmail>")
-def fetchTodo(userEmail: str) -> str:
-    requests = backend.getJoinRequests(userEmail)
-    response = flask.jsonify(requests)
-    print("TodoList for " + userEmail + ": " + str(response))
-    return response
 
 @server.route("/bagpy/<userEmail>")
 def fetchBag(userEmail: str) -> str:
