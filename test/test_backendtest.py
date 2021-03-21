@@ -41,16 +41,28 @@ class TestJutebagBackend(unittest.TestCase):
         todoId_2 = self.store._todoId('moritz.maus@hm10.net')
         self.assertEquals(todoId_1, todoId_2)
 
-    # def test_store_todo_list(self):
-    #     """
-    #     Demo to setup test data.
-    #     FIXME: create proper tests!
-    #     """
-    #     todo_data = {
-    #         'version' : 2,
-    #         'tasks': []
-    #     }
-    #     self.store.storeTodo('moritz.maus@hm10.net', todo_data)
+    def test_store_todo_list(self):
+        #     """
+        #     Demo to setup test data.
+        #     FIXME: create proper tests!
+        #     """
+        #     todo_data = {
+        #         'version' : 2,
+        #         'tasks': []
+        #     }
+        # todo_data_2 = {"version":1,
+        #     "tasks":[
+        #         {"taskList":[
+        #             {"status":0,"label":"Aufgabe 1"},
+        #             {"status":0,"label":"Aufgabe 2"}],
+        #             "nextActionTime":"2021-01-26T07:00:18.394Z","label":"Task 1"},
+        #             {"taskList":[
+        #                 {"status":0,"label":"Konto aufmachen"}],
+        #                 "nextActionTime":"2021-01-25T19:52:11.938Z",
+        #                 "label":"Geld"}]
+        #                 }
+        # self.store.storeTodo('moritz.maus@hm10.net', todo_data_2)
+        pass
 
 
 

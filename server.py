@@ -46,11 +46,28 @@ def pendingRequests(userEmail: str) -> str:
     return response
 
 
+@server.route("/bagpy/v2/<userEmail>", methods=["GET"])
+def storeBagv2(userEmail):
+    bag = backend.fetchBag_v2(userEmail)
+    print("fetched bag for user " + userEmail)
+    return flask.jsonify(bag)
+
+@server.route("/bagpy/v2/<userEmail>", methods=["POST"])
+def fetchBagv2(userEmail):
+    json = request.json
+    storeData = {
+        'categories' : json.get(u'categories'),
+        'items' : json.get(u'items'),
+        'revision' : json.get(u'revision')
+    }
+    return flask.jsonify(backend.storeBag_v2(userEmail, storeData))
+
 @server.route("/bagpy/<userEmail>")
 def fetchBag(userEmail: str) -> str:
-    bag = backend.fetchBag(userEmail)
+    bag = backend.fetchBag_v1(userEmail)
     print("bag for user " + userEmail + " = " + str(bag))
     return flask.jsonify(bag)
+
 
 @server.route("/bagpy/<userEmail>", methods=["POST"])
 def storeBag(userEmail):
@@ -60,9 +77,9 @@ def storeBag(userEmail):
         'items' : json.get(u'items'),
         'revision' : json.get(u'revision')
     }
-    return flask.jsonify(backend.storeBag(userEmail, storeData))
+    return flask.jsonify(backend.storeBag_v1(userEmail, storeData))
 
 if __name__ == "__main__":
     print("trying to start stuff")
-    server.run(host='0.0.0.0')
+    server.run(host='0.0.0.0', port=8000)
     print("stuff started")

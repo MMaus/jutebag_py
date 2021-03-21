@@ -59,24 +59,42 @@ class JutebagBackend(object):
     def _getBag(self, userEmail: str) -> DocumentReference:
         return self.firestore_db.document(u'bags', self._bagId(userEmail), u'shoppingBag', u'latest')
 
+    def _getBag_v2(self, userEmail: str) -> DocumentReference:
+        return self.firestore_db.document(u'bags', self._bagId(userEmail), u'shoppingBag2', u'latest')
+
     def _getTodo(self, userEmail: str) -> DocumentReference:
         return self.firestore_db.document(u'todos', self._todoId(userEmail), u'todoList', u'latest')
 
     def _getPendingJoinRequests(self, userEmail: str) -> CollectionReference:
         return self.firestore_db.collection(u'bags', self._bagId(userEmail), u'joinRequests')
 
-    def storeBag(self, userEmail: str, storeData: dict) -> dict:
+    def storeBag_v1(self, userEmail: str, storeData: dict) -> dict:
         """
         Stores the bag to firestore. Overwrites any existing stuff
         """
         self._getBag(userEmail).set(storeData)
         return {"revision" : 1}
 
-    def fetchBag(self, userEmail: str) -> dict:
+    def fetchBag_v1(self, userEmail: str) -> dict:
         """
         Retrieves the bag and returns it as string
         """
         return self._getBag(userEmail).get().to_dict()
+
+    def storeBag_v2(self, userEmail: str, storeData: dict) -> dict:
+        """
+        Stores the bag to firestore. Overwrites any existing stuff
+        """
+        self._getBag_v2(userEmail).set(storeData)
+        return {"revision" : 1}
+
+    def fetchBag_v2(self, userEmail: str) -> dict:
+        """
+        Retrieves the bag and returns it as string
+        """
+        return self._getBag_v2(userEmail).get().to_dict()
+
+
 
     def getJoinRequests(self, userEmail: str) -> list:
         result = []
